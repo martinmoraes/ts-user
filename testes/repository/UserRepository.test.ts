@@ -1,4 +1,4 @@
-import { IUser } from 'models/IUser';
+import { IUser } from '../../src/models/IUser';
 import UserRepository from '../../src/repositories/UserRepository';
 
 describe('UserRepository', () => {
@@ -9,9 +9,10 @@ describe('UserRepository', () => {
 
   it('should register a user', async () => {
     const user: IUser = {
-      name: 'João',
-      price: 123,
-      category: 'client',
+      first_name: 'João',
+      last_name: 'Silva',
+      password: '1eqwd23423',
+      email: 'joao@sfsdf.vf',
     };
 
     const createdUser = await userRepository.createUser(user);
@@ -27,15 +28,17 @@ describe('UserRepository', () => {
 
   it('should update user', async () => {
     const userCreate: IUser = {
-      name: 'João Silva',
-      price: 456,
-      category: 'client',
+      first_name: 'João',
+      last_name: 'Silva',
+      password: '2342g33345',
+      email: 'joão@wwrwer.vf',
     };
 
     const userUpdate: IUser = {
-      name: 'João',
-      price: 123,
-      category: 'client',
+      first_name: 'João',
+      last_name: 'Todos',
+      password: '2342g33345',
+      email: 'joão@wwrwer.vf',
     };
 
     const createdUser = await userRepository.createUser(userCreate);
@@ -56,9 +59,10 @@ describe('UserRepository', () => {
 
   it('should delete user', async () => {
     const userCreate: IUser = {
-      name: 'João Silva',
-      price: 456,
-      category: 'client',
+      first_name: 'João',
+      last_name: 'Silva',
+      password: '2342g33345',
+      email: 'joão@wwrwer.vf',
     };
 
     const createdUser = await userRepository.createUser(userCreate);

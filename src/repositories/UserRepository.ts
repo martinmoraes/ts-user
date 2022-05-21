@@ -1,4 +1,4 @@
-import { IUser } from 'models/IUser';
+import { IUser } from '../models/IUser';
 import { ObjectId } from 'mongodb';
 import DB from './DB';
 
