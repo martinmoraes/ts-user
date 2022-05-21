@@ -15,14 +15,12 @@ describe('UserRepository', () => {
     };
 
     const createdUser = await userRepository.createUser(user);
-    console.log(createdUser);
 
     expect(createdUser).toEqual(expect.any(Object));
   });
 
   it('should list all user', async () => {
     const createdUser = await userRepository.listAll();
-    console.log(createdUser);
 
     expect(createdUser).toEqual(expect.arrayContaining([expect.any(Object)]));
   });
