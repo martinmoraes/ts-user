@@ -17,11 +17,12 @@ describe('UserRepository', () => {
 
     const createdUser = await userRepository.createUser(user);
 
-    expect(createdUser).toEqual(expect.any(Object));
+    expect(createdUser).toEqual(expect.any(String));
   });
 
   it('should list all user', async () => {
     const createdUser = await userRepository.listAll();
+    console.log(createdUser);
 
     expect(createdUser).toEqual(expect.arrayContaining([expect.any(Object)]));
   });
@@ -41,20 +42,11 @@ describe('UserRepository', () => {
       email: 'joão@wwrwer.vf',
     };
 
-    const createdUser = await userRepository.createUser(userCreate);
-    const id = createdUser.insertedId.toString();
+    const idUser = await userRepository.createUser(userCreate);
 
-    const upDatedUser = await userRepository.upDateById(id, userUpdate);
+    const upDatedUser = await userRepository.upDateById(idUser, userUpdate);
 
-    expect(upDatedUser).toEqual(
-      expect.objectContaining({
-        acknowledged: true,
-        modifiedCount: 1,
-        upsertedId: null,
-        upsertedCount: 0,
-        matchedCount: 1,
-      }),
-    );
+    expect(upDatedUser).toBeTruthy();
   });
 
   it('should delete user', async () => {
@@ -65,13 +57,9 @@ describe('UserRepository', () => {
       email: 'joão@wwrwer.vf',
     };
 
-    const createdUser = await userRepository.createUser(userCreate);
-    const id = createdUser.insertedId.toString();
+    const idUser = await userRepository.createUser(userCreate);
 
-    const upDatedUser = await userRepository.deleteById(id);
-
-    expect(upDatedUser).toEqual(
-      expect.objectContaining({ acknowledged: true, deletedCount: 1 }),
-    );
+    const upDatedUser = await userRepository.deleteById(idUser);
+    expect(upDatedUser).toBeTruthy();
   });
 });

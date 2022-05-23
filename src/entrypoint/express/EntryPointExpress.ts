@@ -1,12 +1,12 @@
 import express from 'express';
-import routesUser from './routes/helloRoute';
+import routes from './routes/index';
 
 export default class EntryPointExpress {
   execute() {
     const app = express();
 
     app.use(express.json());
-    app.use(routesUser);
+    app.use(routes);
 
     app.listen(3333, () => {
       console.log('Server started on port 3333');
