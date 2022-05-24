@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 import { IUserPassword } from 'src/models/IUser';
 import UserRepository from '../../../../repositories/UserRepository';
 import { CreateUserUseCase } from '../../../../useCase/CreateUserUseCase';
@@ -14,6 +15,11 @@ export class UserController {
   }
 
   public async createUser(req: Request, res: Response): Promise<Response> {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const user: IUserPassword = req.body;
     const resutedUser = await new CreateUserUseCase(
       new UserRepository(),
