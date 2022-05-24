@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Token } from '../../servicesApplication/token';
+import { Token } from '../../servicesApplication/TokenService';
 
 export function isAuthenticated(
   req: Request,

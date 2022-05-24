@@ -1,5 +1,4 @@
 import { IUser } from '../models/IUser';
-import User from '../models/User';
 import { ObjectId } from 'mongodb';
 import DB from './DB';
 
@@ -15,19 +14,42 @@ export default class UserRepository extends DB {
 
   public async listAll(): Promise<IUser[]> {
     const createdCollection = await this.connectToDatabase(this.collection);
-    const allUser = await createdCollection.find({}).toArray();
+    const allUser = await createdCollection
+      .find({}, { projection: { password: 0 } })
+      .toArray();
     this.disconnectDB();
     const users: IUser[] = allUser.map((user) => {
-      const newUser = new User(
-        user._id.toString(),
-        user.first_name,
-        user.last_name,
-        user.password,
-        user.email,
-      );
+      const newUser = {
+        id: user._id.toString(),
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+      };
       return newUser;
     });
     return users;
+  }
+
+  public async findByObjectID(objectID: string): Promise<IUser | undefined> {
+    const createdCollection = await this.connectToDatabase(this.collection);
+    const user = await createdCollection.findOne(
+      {
+        _id: new ObjectId(objectID),
+      },
+      { projection: { password: 0 } },
+    );
+    this.disconnectDB();
+
+    if (user === null) {
+      return undefined;
+    }
+    const newUser: IUser = {
+      id: user._id.toString(),
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+    };
+    return newUser;
   }
 
   public async upDateById(query: string, user: IUser): Promise<boolean> {

@@ -1,4 +1,4 @@
-import { IUser } from '../../src/models/IUser';
+import { IUserPassword } from '../../src/models/IUser';
 import UserRepository from '../../src/repositories/UserRepository';
 
 describe('UserRepository', () => {
@@ -8,7 +8,7 @@ describe('UserRepository', () => {
   });
 
   it('should register a user', async () => {
-    const user: IUser = {
+    const user: IUserPassword = {
       first_name: 'João',
       last_name: 'Silva',
       password: '1eqwd23423',
@@ -28,14 +28,14 @@ describe('UserRepository', () => {
   });
 
   it('should update user', async () => {
-    const userCreate: IUser = {
+    const userCreate: IUserPassword = {
       first_name: 'João',
       last_name: 'Silva',
       password: '2342g33345',
       email: 'joão@wwrwer.vf',
     };
 
-    const userUpdate: IUser = {
+    const userUpdate: IUserPassword = {
       first_name: 'João',
       last_name: 'Todos',
       password: '2342g33345',
@@ -50,7 +50,7 @@ describe('UserRepository', () => {
   });
 
   it('should delete user', async () => {
-    const userCreate: IUser = {
+    const userCreate: IUserPassword = {
       first_name: 'João',
       last_name: 'Silva',
       password: '2342g33345',
@@ -61,5 +61,28 @@ describe('UserRepository', () => {
 
     const upDatedUser = await userRepository.deleteById(idUser);
     expect(upDatedUser).toBeTruthy();
+  });
+
+  it('should find user', async () => {
+    const userCreate: IUserPassword = {
+      first_name: 'João',
+      last_name: 'Silva',
+      password: '2342g33345',
+      email: 'joão@wwrwer.vf',
+    };
+
+    const idUser = await userRepository.createUser(userCreate);
+
+    const findedUser = await userRepository.findByObjectID(idUser);
+    console.log(idUser, findedUser);
+
+    expect(findedUser).toEqual(
+      expect.objectContaining({
+        id: expect.any(String),
+        first_name: 'João',
+        last_name: 'Silva',
+        email: 'joão@wwrwer.vf',
+      }),
+    );
   });
 });

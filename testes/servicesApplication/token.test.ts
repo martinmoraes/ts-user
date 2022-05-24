@@ -1,5 +1,5 @@
 import { IIdUser } from 'src/models/IUser';
-import { Token } from '../../src/servicesApplication/token';
+import { Token } from '../../src/servicesApplication/TokenService';
 
 describe('Token', () => {
   let token: Token;
@@ -9,6 +9,8 @@ describe('Token', () => {
 
   it('should generate token', () => {
     const generatedToken = token.generate({ id: 'frase secreta' });
+    console.log(generatedToken);
+
     expect(generatedToken).toEqual(expect.any(String));
     expect(generatedToken).toEqual(expect.stringContaining('Bearer '));
   });
