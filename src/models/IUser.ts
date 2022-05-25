@@ -9,6 +9,9 @@ export interface IUserPassword extends IUser {
   password: string;
 }
 
+export interface IUserUpdate extends IUser {
+  password?: string;
+}
 export interface IIdUser {
   id: string;
 }

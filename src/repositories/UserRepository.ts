@@ -1,4 +1,4 @@
-import { IUser } from '../models/IUser';
+import { IUser, IUserUpdate } from '../models/IUser';
 import { ObjectId } from 'mongodb';
 import DB from './DB';
 
@@ -52,20 +52,20 @@ export default class UserRepository extends DB {
     return newUser;
   }
 
-  public async upDateById(query: string, user: IUser): Promise<boolean> {
+  public async upDateById(id: string, user: IUserUpdate): Promise<boolean> {
     const createdCollection = await this.connectToDatabase(this.collection);
     const updetedUser = await createdCollection.updateOne(
-      { _id: new ObjectId(query) },
+      { _id: new ObjectId(id) },
       { $set: user },
     );
     this.disconnectDB();
     return updetedUser.modifiedCount === 1 ? true : false;
   }
 
-  public async deleteById(query: string): Promise<boolean> {
+  public async deleteById(id: string): Promise<boolean> {
     const createdCollection = await this.connectToDatabase(this.collection);
     const updetedUser = await createdCollection.deleteOne({
-      _id: new ObjectId(query),
+      _id: new ObjectId(id),
     });
     this.disconnectDB();
     return updetedUser.deletedCount === 1 ? true : false;
