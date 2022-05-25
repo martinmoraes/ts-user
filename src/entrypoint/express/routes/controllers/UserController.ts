@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import { IUserPassword, IUserUpdate } from 'src/models/IUser';
+import { IUser, IUserPassword, IUserUpdate } from 'src/models/IUser';
 import { UpdateUserUseCase } from '../../../../useCase/UpdateUserUseCase';
 import UserRepository from '../../../../repositories/UserRepository';
 import { CreateUserUseCase } from '../../../../useCase/CreateUserUseCase';
@@ -9,7 +9,12 @@ import { FindUserUseCase } from '../../../../useCase/FindUserUseCase';
 
 export class UserController {
   public async listAll(req: Request, res: Response): Promise<Response> {
-    const users = await new ListUserUseCase(new UserRepository()).execute();
+    let users: IUser[];
+    try {
+      users = await new ListUserUseCase(new UserRepository()).execute();
+    } catch (error) {
+      return res.status(400).json({ message: 'unexpected error', error });
+    }
 
     return res.json(users);
   }
@@ -21,11 +26,20 @@ export class UserController {
     }
 
     const user: IUserPassword = req.body;
-    const resutedUser = await new CreateUserUseCase(
-      new UserRepository(),
-    ).execute(user);
+    let resultedUser: IUser | undefined;
+    try {
+      resultedUser = await new CreateUserUseCase(new UserRepository()).execute(
+        user,
+      );
+    } catch (error) {
+      return res.status(400).json({ message: 'unexpected error', error });
+    }
 
-    return res.status(201).json(resutedUser);
+    if (resultedUser === undefined) {
+      return res.status(400).json({});
+    }
+
+    return res.status(201).json(resultedUser);
   }
 
   public async updateUser(req: Request, res: Response): Promise<Response> {
@@ -36,14 +50,18 @@ export class UserController {
 
     const { id } = req.params;
     const user: IUserUpdate = req.body;
-    const resutedUpdate = await new UpdateUserUseCase(
-      new UserRepository(),
-    ).execute(id, user);
-
-    if (resutedUpdate) {
-      return res.status(201).json(resutedUpdate);
+    let resultedUpdate;
+    try {
+      resultedUpdate = await new UpdateUserUseCase(
+        new UserRepository(),
+      ).execute(id, user);
+    } catch (error) {
+      return res.status(400).json({ message: 'unexpected error', error });
     }
-    return res.status(400).json({});
+    if (resultedUpdate === undefined) {
+      return res.status(400).json({});
+    }
+    return res.status(201).json(resultedUpdate);
   }
 
   public async findUser(req: Request, res: Response): Promise<Response> {
@@ -53,13 +71,18 @@ export class UserController {
     }
 
     const { id } = req.params;
-    const resutedUpdate = await new FindUserUseCase(
-      new UserRepository(),
-    ).execute(id);
-
-    if (resutedUpdate) {
-      return res.status(201).json(resutedUpdate);
+    let resultedUpdate: IUser | undefined;
+    try {
+      resultedUpdate = await new FindUserUseCase(new UserRepository()).execute(
+        id,
+      );
+    } catch (error) {
+      return res.status(400).json({ message: 'unexpected error', error });
     }
-    return res.status(400).json({});
+
+    if (resultedUpdate === undefined) {
+      return res.status(400).json({});
+    }
+    return res.status(201).json(resultedUpdate);
   }
 }

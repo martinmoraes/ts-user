@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 
-export const userValidate = [
+export const userCreateValidate = [
   body('first_name')
     .escape()
     .not()
