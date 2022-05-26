@@ -1,4 +1,4 @@
-import { IUser, IUserUpdate } from '../models/IUser';
+import { IUser, IUserPassword, IUserUpdate } from '../models/IUser';
 import { ObjectId } from 'mongodb';
 import DB from './DB';
 
@@ -47,6 +47,26 @@ export default class UserRepository extends DB {
       id: user._id.toString(),
       first_name: user.first_name,
       last_name: user.last_name,
+      email: user.email,
+    };
+    return newUser;
+  }
+
+  public async findByEMail(email: string): Promise<IUserPassword | undefined> {
+    const createdCollection = await this.connectToDatabase(this.collection);
+    const user = await createdCollection.findOne({
+      email,
+    });
+    this.disconnectDB();
+
+    if (user === null) {
+      return undefined;
+    }
+    const newUser: IUserPassword = {
+      id: user._id.toString(),
+      first_name: user.first_name,
+      last_name: user.last_name,
+      password: user.password,
       email: user.email,
     };
     return newUser;

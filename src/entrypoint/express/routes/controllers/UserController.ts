@@ -33,6 +33,9 @@ export class UserController {
         user,
       );
     } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message, error });
+      }
       return res.status(400).json({ message: 'unexpected error', error });
     }
 
