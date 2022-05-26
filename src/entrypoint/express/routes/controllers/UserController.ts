@@ -6,6 +6,7 @@ import UserRepository from '../../../../repositories/UserRepository';
 import { CreateUserUseCase } from '../../../../useCase/CreateUserUseCase';
 import { ListUserUseCase } from '../../../../useCase/ListUserUseCase';
 import { FindUserUseCase } from '../../../../useCase/FindUserUseCase';
+import { DeleteUserUseCase } from '../../../../useCase/DeleteUserUseCase';
 
 export class UserController {
   public async listAll(req: Request, res: Response): Promise<Response> {
@@ -84,5 +85,22 @@ export class UserController {
       return res.status(400).json({});
     }
     return res.status(201).json(resultedUpdate);
+  }
+
+  public async deleteUser(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    let resultedDelete: boolean;
+    try {
+      resultedDelete = await new DeleteUserUseCase(
+        new UserRepository(),
+      ).execute(id);
+    } catch (error) {
+      return res.status(400).json({ message: 'unexpected error', error });
+    }
+
+    if (!resultedDelete) {
+      return res.status(400).json({ deleted: resultedDelete });
+    }
+    return res.status(201).json({ deleted: resultedDelete });
   }
 }

@@ -13,3 +13,6 @@ export interface IUserRepositoryCreate extends IUserRepositoryFindByObjectId {
 export interface IUserRepositoryUpdate extends IUserRepositoryFindByObjectId {
   upDateById(query: string, user: IUserUpdate): Promise<boolean>;
 }
+export interface IUserRepositoryDelete extends IUserRepositoryFindByObjectId {
+  deleteById(id: string): Promise<boolean>;
+}

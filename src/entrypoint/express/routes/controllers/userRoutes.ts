@@ -16,5 +16,6 @@ userRoutes.patch(
   userController.updateUser,
 );
 userRoutes.get('/:id', isAuthenticated, userController.findUser);
+userRoutes.delete('/:id', isAuthenticated, userController.deleteUser);
 
 export default userRoutes;
