@@ -59,7 +59,8 @@ export default class UserRepository extends DB {
       { $set: user },
     );
     this.disconnectDB();
-    return updetedUser.modifiedCount === 1 ? true : false;
+    return updetedUser.matchedCount === 1 ? true : false;
+    // return updetedUser.modifiedCount === 1 ? true : false;
   }
 
   public async deleteById(id: string): Promise<boolean> {
