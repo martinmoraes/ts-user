@@ -17,3 +17,6 @@ export interface IUserRepositoryUpdate extends IUserRepositoryFindByObjectId {
 export interface IUserRepositoryDelete extends IUserRepositoryFindByObjectId {
   deleteById(id: string): Promise<boolean>;
 }
+export interface IUserRepositoryAuth {
+  findByEMail(email: string): Promise<IUserPassword | undefined>;
+}

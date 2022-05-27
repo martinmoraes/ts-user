@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import userRoutes from './controllers/userRoutes';
+import authRoutes from './authRoutes';
+import userRoutes from './userRoutes';
 
 const routes = Router();
 
 routes.use('/user', userRoutes);
+routes.use('/auth', authRoutes);
 
 export default routes;

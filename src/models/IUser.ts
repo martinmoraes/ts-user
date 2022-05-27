@@ -15,3 +15,13 @@ export interface IUserUpdate extends IUser {
 export interface IIdUser {
   id: string;
 }
+
+export interface IAuth {
+  email: string;
+  password: string;
+}
+
+export interface IUserToken {
+  user: IUser;
+  access_token: string;
+}

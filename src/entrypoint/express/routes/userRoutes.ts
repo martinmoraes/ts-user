@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { isAuthenticated } from '../../../middlewares/verifyToken';
-import { UserController } from './UserController';
-import { userCreateValidate } from '../../../middlewares/userCreateValidator';
-import { userUpdateValidate } from '../../../middlewares/userUpdateValidator';
+import { isAuthenticated } from '../../middlewares/verifyToken';
+import { UserController } from './controllers/UserController';
+import { userCreateValidate } from '../../middlewares/userCreateValidator';
+import { userUpdateValidate } from '../../middlewares/userUpdateValidator';
 
 const userRoutes = Router();
 const userController = new UserController();
