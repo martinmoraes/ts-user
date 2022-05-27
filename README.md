@@ -7,8 +7,8 @@
 - Run the following commands:
 
 ```
-$ git clone https://github.com/martinmoraes/ts_user
-$ cd ts_user
+$ git clone https://github.com/martinmoraes/ts-user
+$ cd ts-user
 $ chmod +x docker/entrypoint.sh
 $ docker-compose up
 ```
